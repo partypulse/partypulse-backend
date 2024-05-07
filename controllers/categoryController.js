@@ -23,6 +23,7 @@ exports.getAllCategories = async (req, res) => {
 exports.createCategory = async (req, res) => {
     try {
         const category = await Category.create(req.body);
+        res.status(201).json({
             status: 'success',
             data: {
                 category
@@ -35,6 +36,7 @@ exports.createCategory = async (req, res) => {
         });
     }
 };
+
 
 // get a specific category with its subcategories
 exports.getCategory = async (req, res) => {
