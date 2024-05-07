@@ -1,27 +1,31 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
-const userSchema = new Schema({
-
-    firstname: { type: String, default: '', required: true },
-    lastname: { type: String, default: '', required: true },
-    email:{ type: String, default: '', required: true, unique: true },
-    password:{ type: String, default: '', required: true },
-    address:{ type: String, default: '' },
-    phonenr:{ type: String, default: '' },
-    role:{ type: String, enum: ['user', 'admin'], default: 'user' },
-    createdDate:{ type: Date, default: Date.now},
-    createdBy:{ type: String, default: ''},
-    editedDate:{ type: Date, default: Date.now},
-    editedBy:{ type: String, default: ''},
-    deletedDate:{ type: Date, default: Date.now},
-    deletedBy:{ type: String, default: ''},
-    deleted:{type:Boolean,default:false}
-
+const userSchema = new mongoose.Schema({
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true }
 });
 
-// create mongoose-model for user
+// Hash the password before saving it to the database
+userSchema.pre('save', function(next) {
+    const user = this;
+    if (!user.isModified('password')) return next();
+
+    bcrypt.genSalt(10, (err, salt) => {
+        if (err) return next(err);
+        bcrypt.hash(user.password, salt, (err, hash) => {
+            if (err) return next(err);
+            user.password = hash;
+            next();
+        });
+    });
+});
+
+// Method to validate password
+userSchema.methods.isValidPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+};
+
 const User = mongoose.model('User', userSchema);
 
-// export user-model to use it in other files in nodejs-app
 module.exports = User;
