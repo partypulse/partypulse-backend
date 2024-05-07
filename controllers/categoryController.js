@@ -37,7 +37,6 @@ exports.createCategory = async (req, res) => {
     }
 };
 
-
 // get a specific category with its subcategories
 exports.getCategory = async (req, res) => {
     try {

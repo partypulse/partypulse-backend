@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('./controllers/productController');
-
+const {login}= require('./controllers/authController');
 
 const Todo = require('./todo');
 
@@ -60,11 +60,17 @@ router.get('/products/:id', getProductById);
 // POST create a new product
 router.post('/products', createProduct);
 
+
 // PUT update a product by ID
 router.put('/products/:id', updateProduct);
 
 // DELETE a product by ID
 router.delete('/products/:id', deleteProduct);
 
+
+
+// LOGIN
+
+router.post('/login', login);
 
 module.exports = router;
