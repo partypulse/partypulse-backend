@@ -1,8 +1,8 @@
 const cors = require("cors");
 const morgan = require("morgan");
-const router = require('./router')
-const {connectToDatabase} = require("./db");
-const todoRoutes = require('./router');
+const router = require('./routes/router')
+const {connectToDatabase} = require("./database/db");
+const todoRoutes = require('./routes/router');
 const express = require("express");
 const app = express();
 const User=require("./models/User")
@@ -57,7 +57,7 @@ app.post('/login', async (req, res) => {
 
         // If the email and password are correct, generate a JWT token
         const token = generateToken(user);
-        res.json({ token });
+        res.json({ token,_userId:user._id });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });

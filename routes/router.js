@@ -2,10 +2,11 @@
 // routes/todos.js
 const express = require('express');
 const router = express.Router();
-const { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('./controllers/productController');
+const { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct } = require('../controllers/productController');
 //const {login}= require('./controllers/authController');
 
-const Todo = require('./todo');
+const Todo = require('../models/todo');
+const UserController = require("../controllers/userController");
 
 // Create a todo
 router.post('/', async (req, res) => {
@@ -67,7 +68,18 @@ router.put('/products/:id', updateProduct);
 // DELETE a product by ID
 router.delete('/products/:id', deleteProduct);
 
+// Users //
 
+router.get('/user/getuser/:id', UserController.getUserById);
+
+// Route för att skapa en ny användare
+router.post('/user/createnewuser/', UserController.createUser);
+
+// Route för att uppdatera en befintlig användare baserat på ID
+router.put('/user/edituser/:id', UserController.updateUser);
+
+// Route för att ta bort en användare baserat på ID
+router.delete('/user/deleteuser/:id', UserController.deleteUser);
 
 // LOGIN
 
