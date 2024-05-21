@@ -6,6 +6,10 @@ const todoRoutes = require('./routes/router');
 const express = require("express");
 const app = express();
 const User=require("./models/User")
+const categoryRoutes = require('./routes/categoryRoutes');
+const productRoutes = require('./routes/productRoutes');
+
+
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -13,6 +17,17 @@ app.use(express.json({limit: '300mb'}));
 app.use(express.urlencoded({extended: true, limit:'300mb'}));
 app.use(router)
 app.use('/todos', todoRoutes);
+
+// categories
+app.use('/api/categories', categoryRoutes);
+app.use('/api/products', productRoutes);
+
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
 
 // POST-endpunkt för registrering
 app.post('/register', async (req, res) => {
@@ -64,7 +79,11 @@ app.post('/login', async (req, res) => {
     }
 });
 
+
+// anslut till db
 connectToDatabase();
+
+// starta server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 

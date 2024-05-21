@@ -1,11 +1,10 @@
-// controllers/productController.js
-
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 
 // GET all products
 exports.getAllProducts = async (req, res) => {
     try {
-        const products = await Product.find();
+        const products = await Product.find().populate('mainCategory subCategory');
         res.json(products);
     } catch (err) {
         res.status(500).json({ message: err.message });
@@ -15,7 +14,7 @@ exports.getAllProducts = async (req, res) => {
 // GET a single product by ID
 exports.getProductById = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findById(req.params.id).populate('mainCategory subCategory');
         if (!product) {
             return res.status(404).json({ message: 'Product not found' });
         }
@@ -27,9 +26,25 @@ exports.getProductById = async (req, res) => {
 
 // POST create a new product
 exports.createProduct = async (req, res) => {
-    console.log(req.body)
     try {
-        const newProduct = await new Product(req.body).save();
+        const { name, price, image, mainCategory, subCategory, stock, info } = req.body;
+
+        // Kontrollera att mainCategory och subCategory är giltiga ObjectId
+        if (!mainCategory || !subCategory) {
+            return res.status(400).json({ message: 'Main category and sub category are required' });
+        }
+
+        const newProduct = new Product({
+            name,
+            price,
+            image,
+            mainCategory,
+            subCategory,
+            stock,
+            info
+        });
+
+        await newProduct.save();
         res.status(201).json(newProduct);
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -39,7 +54,22 @@ exports.createProduct = async (req, res) => {
 // PUT update a product by ID
 exports.updateProduct = async (req, res) => {
     try {
-        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const { name, price, image, mainCategory, subCategory, stock, info } = req.body;
+
+        // Kontrollera att mainCategory och subCategory är giltiga ObjectId
+        if (!mainCategory || !subCategory) {
+            return res.status(400).json({ message: 'Main category and sub category are required' });
+        }
+        const updatedProduct = await Product.findByIdAndUpdate(req.params.id, {
+            name,
+            price,
+            image,
+            mainCategory,
+            subCategory,
+            stock,
+            info
+        }, { new: true });
+
         if (!updatedProduct) {
             return res.status(404).json({ message: 'Product not found' });
         }
