@@ -4,18 +4,18 @@ const categoryController = require('../controllers/categoryController');
 const router = express.Router();
 
 // get all categories
-router.get('/categories', categoryController.getAllCategories);
+router.get('/', categoryController.getAllCategories);
 
 // create a new category
-router.post('/categories', categoryController.createCategory);
+router.post('/', categoryController.createCategory);
 
-// Route för att hämta en specifik kategori med dess subkategorier
-router.get('/categories/:categoryId', categoryController.getCategory);
+// get a specific category with its subcategories
+router.get('/:id', categoryController.getCategory);
 
 // update existing category
-router.patch('/categories/:categoryId', categoryController.updateCategory);
+router.patch('/:id', categoryController.updateCategory);
 
 // delete category
-router.delete('/categories/:categoryId', categoryController.deleteCategory);
+router.delete('/:id', categoryController.deleteCategory);
 
 module.exports = router;
