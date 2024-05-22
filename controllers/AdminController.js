@@ -1,8 +1,12 @@
+const User = require("../models/User");
+const Product = require("../models/Product");
+const Order = require("../models/Order");
+const Category = require("../models/Category");
 const getUsers = async (request, response) => {
   try {
     const data = await User.find({});
 
-    return response.status(401).json("Unauthorized");
+    return response.status(200).json(data);
   } catch (error) {
     console.log(error);
     response.status(400).json(error);
@@ -12,7 +16,7 @@ const getProducts = async (request, response) => {
   try {
     const data = await Product.find({});
 
-    return response.status(401).json("Unauthorized");
+    return response.status(200).json(data);
   } catch (error) {
     console.log(error);
     response.status(400).json(error);
@@ -22,7 +26,7 @@ const getOrders = async (request, response) => {
   try {
     const data = await Order.find({});
 
-    return response.status(401).json("Unauthorized");
+    return response.status(200).json(data);
   } catch (error) {
     console.log(error);
     response.status(400).json(error);
@@ -30,9 +34,9 @@ const getOrders = async (request, response) => {
 };
 const getCategories = async (request, response) => {
   try {
-    const companies = await Category.find({});
+    const data = await Category.find({});
 
-    return response.status(401).json("Unauthorized");
+    return response.status(200).json(data);
   } catch (error) {
     console.log(error);
     response.status(400).json(error);

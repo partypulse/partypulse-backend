@@ -21,11 +21,12 @@ const login = async (request, response) => {
           { uid: user.email },
           AuthenticationService.getJwtSecret()
         );
-        return response.json({
+        return response.status(200).json({
           success: true,
           message: "Authentication successful!",
           tid: token,
           uid: user.email,
+          user: user,
           firstName: user.firstName,
           lastName: user.lastName,
           _userId: user._id,
@@ -54,9 +55,28 @@ const register = async (req, res) => {
     }
 
     // Skapa en ny användare och spara den i databasen
-    const newUser = new User({ email, password });
+    const newUser = new User({
+      email: req.body.email,
+      password: req.body.password,
+      role: "user",
+    });
     await newUser.save();
-    res.status(201).json({ message: "User registered successfully" });
+
+    const token = jwt.sign(
+      { uid: req.body.email },
+      AuthenticationService.getJwtSecret()
+    );
+    return res.status(200).json({
+      success: true,
+      message: "Authentication successful!",
+      tid: token,
+      uid: newUser.email,
+      user: newUser,
+      firstName: newUser.firstName,
+      lastName: newUser.lastName,
+      _userId: newUser._id,
+      role: newUser.role,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to register user" });

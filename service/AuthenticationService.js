@@ -6,7 +6,6 @@ function getJwtSecret() {
 
 const authenticate = async function (request, response, next) {
   let token = request.headers["authorization"];
-  console.log(token);
   if (!token) {
     return response.status(412).json({
       success: false,
