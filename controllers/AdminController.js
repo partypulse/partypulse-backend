@@ -14,9 +14,11 @@ const getUsers = async (request, response) => {
 };
 const getProducts = async (request, response) => {
   try {
-    const data = await Product.find({});
+    const products = await Product.find()
+      .populate("mainCategory")
+      .populate("subCategory");
 
-    return response.status(200).json(data);
+    return response.status(200).json(products);
   } catch (error) {
     console.log(error);
     response.status(400).json(error);

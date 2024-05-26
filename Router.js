@@ -6,12 +6,13 @@ const AuthenticationRouter = require("./router/AuthenticationRouter");
 const ProductRouter = require("./router/ProductRouter");
 const UserRouter = require("./router/UserRouter");
 const OrderRouter = require("./router/OrderRouter");
+const CategoryRouter = require("./router/CategoryRouter");
 
 let Router = (app) => {
   app.use("/admin", AdminRouter.router);
 
   app.use("/auth", AuthenticationRouter.router);
-  //app.use("/category", CategoryRouter.router);
+  app.use("/category", CategoryRouter.router);
   // app.use("/image", ImageRouter.router);
   app.use("/order", OrderRouter.router);
   //app.use("/orderitem", OrderItem.router);

@@ -4,7 +4,9 @@ const Category = require("../models/Category");
 // GET all products
 exports.getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate("mainCategory subCategory");
+    const products = await Product.find()
+      .populate("mainCategory")
+      .populate("subCategory");
     res.json(products);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -64,12 +66,13 @@ exports.updateProduct = async (req, res) => {
 
     // Kontrollera att mainCategory och subCategory är giltiga ObjectId
     if (!mainCategory || !subCategory) {
+      console.log("Main category and sub category are required");
       return res
         .status(400)
         .json({ message: "Main category and sub category are required" });
     }
-    const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id,
+    const updatedProduct = await Product.findOneAndUpdate(
+      { _id: req.body._id },
       {
         name,
         price,
@@ -83,10 +86,13 @@ exports.updateProduct = async (req, res) => {
     );
 
     if (!updatedProduct) {
+      console.log("Product not found");
+
       return res.status(404).json({ message: "Product not found" });
     }
     res.json(updatedProduct);
   } catch (err) {
+    console.log(err);
     res.status(400).json({ message: err.message });
   }
 };
@@ -94,7 +100,9 @@ exports.updateProduct = async (req, res) => {
 // DELETE a product by ID
 exports.deleteProduct = async (req, res) => {
   try {
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+    const deletedProduct = await Product.findByIdAndDelete(
+      req.params.product_id
+    );
     if (!deletedProduct) {
       return res.status(404).json({ message: "Product not found" });
     }

@@ -11,7 +11,11 @@ router.get(
   ProductController.getProductById
 );
 router.post("/create", authenticate, ProductController.createProduct);
-router.delete("/delete", authenticate, ProductController.deleteProduct);
+router.delete(
+  "/delete/:product_id",
+  authenticate,
+  ProductController.deleteProduct
+);
 router.put("/update", authenticate, ProductController.updateProduct);
 
 module.exports = { router };
