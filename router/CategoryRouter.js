@@ -26,12 +26,17 @@ router.delete(
 // endpoint to get products by category
 router.get("/products/category/:categoryId", async (req, res) => {
   try {
+    // extract parameters from url and convert it to mongoose objectid
     const categoryId = new mongoose.Types.ObjectId(req.params.categoryId);
+    // search in db maincategory=categoryid
+    // populate = som join i SQL. replace ref with actual doc.
     const products = await Product.find({ mainCategory: categoryId }).populate(
       "mainCategory subCategory"
     );
 
+    // check if no products have been found
     if (products.length === 0) {
+      // then send this error message
       return res
         .status(404)
         .json({ message: "No products found for this category" });
