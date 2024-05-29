@@ -19,7 +19,7 @@ const login = async (request, response) => {
       } else {
         const token = jwt.sign(
           { uid: user.email },
-          AuthenticationService.getJwtSecret()
+          AuthenticationService.getJwtSecret(),
         );
         return response.status(200).json({
           success: true,
@@ -64,7 +64,7 @@ const register = async (req, res) => {
 
     const token = jwt.sign(
       { uid: req.body.email },
-      AuthenticationService.getJwtSecret()
+      AuthenticationService.getJwtSecret(),
     );
     return res.status(200).json({
       success: true,

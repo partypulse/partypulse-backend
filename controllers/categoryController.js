@@ -40,7 +40,7 @@ exports.createCategory = async (req, res) => {
 exports.getCategory = async (req, res) => {
   try {
     const category = await Category.findById(req.params.id).populate(
-      "subcategories"
+      "subcategories",
     );
     res.status(200).json({
       status: "success",

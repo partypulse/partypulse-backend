@@ -12,7 +12,7 @@ router.put("/editorder/:order_id", authenticate, OrderController.updateOrder);
 router.delete(
   "/deleteorder/:order_id",
   authenticate,
-  OrderController.deleteOrder
+  OrderController.deleteOrder,
 );
 
 module.exports = { router };

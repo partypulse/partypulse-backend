@@ -44,7 +44,7 @@ exports.updateUser = async (req, res) => {
       req.body,
       {
         new: true,
-      }
+      },
     );
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found. 🤷‍♀️" });

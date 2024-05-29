@@ -17,7 +17,7 @@ exports.getAllProducts = async (req, res) => {
 exports.getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.product_id).populate(
-      "mainCategory subCategory"
+      "mainCategory subCategory",
     );
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
@@ -82,7 +82,7 @@ exports.updateProduct = async (req, res) => {
         stock,
         info,
       },
-      { new: true }
+      { new: true },
     );
 
     if (!updatedProduct) {
@@ -101,7 +101,7 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await Product.findByIdAndDelete(
-      req.params.product_id
+      req.params.product_id,
     );
     if (!deletedProduct) {
       return res.status(404).json({ message: "Product not found" });

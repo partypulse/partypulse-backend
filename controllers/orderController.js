@@ -129,7 +129,7 @@ exports.updateOrder = async (req, res) => {
     const updatedOrder = await Order.findOneAndUpdate(
       { _id: req.params.order_id },
       req.body,
-      { new: true }
+      { new: true },
     );
     if (!updatedOrder) {
       return res.status(404).json({ message: "Order not found. 🤔" });
