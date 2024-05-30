@@ -9,6 +9,14 @@ const OrderRouter = require("./router/OrderRouter");
 const CategoryRouter = require("./router/CategoryRouter");
 
 let Router = (app) => {
+  app.get("/health", async (request, response) => {
+  try {
+   return response.status(200).json("Success");
+  } catch (err) {
+    console.error("Error:", err.message);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+  });
   app.use("/admin", AdminRouter.router);
 
   app.use("/auth", AuthenticationRouter.router);
