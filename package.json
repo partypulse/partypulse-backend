@@ -5,7 +5,7 @@
   "main": "Application.js",
   "scripts": {
     "start": "nodemon Application.js",
-    "production": "cross-env NODE_ENV=production nodemon Application.js"
+    "start:prod": "cross-env NODE_ENV=production nodemon Application.js"
   },
   "author": "",
   "license": "ISC",
